@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
 
     private double mGold;
     private int mStage;
-    [SerializeField] private GameController mGem;
+    [SerializeField] private GemController mGem;
 
     void Awake()
     {
@@ -21,5 +21,26 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        int id = Random.Range(0, GemController.MAX_GEM_COUNT);
+        mGem.GetNewGem(id);
+    }
+
+    void Update()
+    {
+        
+    }
+
+    public void Touth()
+    {
+        if (mGem.AddProgress(1))
+        {
+            int id = Random.Range(0, GemController.MAX_GEM_COUNT);
+            mGem.GetNewGem(id);
+        }
+
     }
 }

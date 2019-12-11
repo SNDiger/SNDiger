@@ -24,8 +24,7 @@ public class TouchManager : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 Ray ray = GenerateRay(touch.position);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+                if (Physics.Raycast(ray, out RaycastHit hit))
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
@@ -45,20 +44,20 @@ public class TouchManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = GenerateRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray,out hit))
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if(hit.collider.gameObject == gameObject)
+                if (hit.collider.gameObject == gameObject)
                 {
                     Timer effect = mEffectPool.GetFromPool(0);
                     effect.transform.position = hit.point;
                 }
             }
+            GameController.Instance.Touth();
         }
 #endif
         if (GetTouch())
         {
-            // GameController.Touch();
+            GameController.Instance.Touth();
         }
     }
 }
