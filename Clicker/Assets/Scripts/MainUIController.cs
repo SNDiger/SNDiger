@@ -8,7 +8,8 @@ public class MainUIController : MonoBehaviour
 {
     private static int mUIMoveHash = Animator.StringToHash("Move");
     [SerializeField] private Animator[] mWindowAnims;
-    [SerializeField] private Image mHPGaugeBar;
+    [SerializeField] private Image mGaugeBar;
+    [SerializeField] private Text mGaugeBarText;
 
     public void MoveWindow(int id)
     {
@@ -17,11 +18,15 @@ public class MainUIController : MonoBehaviour
 
     public void ShowHPBar(float progress)
     {
-        mHPGaugeBar.fillAmount = progress;
+        mGaugeBar.fillAmount = progress;
+        string progressString = progress.ToString("P0");
+        mGaugeBarText.text = progressString;
     }
-    public void ShowHPBar(double currentHP, double maxHP)
+    public void ShowHPBar(double current, double max)
     {
-        double value = currentHP / maxHP;
-        mHPGaugeBar.fillAmount = (float)value;
+        float progress = (float)(current / max);
+        string progressString = progress.ToString("P0");
+        mGaugeBar.fillAmount = progress;
+        mGaugeBarText.text = progressString;
     }
 }
