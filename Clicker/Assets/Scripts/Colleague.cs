@@ -7,31 +7,43 @@ public class Colleague : MonoBehaviour
 {
     private Rigidbody2D mRB2D;
     [SerializeField] private float mSpeed;
+    [SerializeField] private Transform mEffectPos;
     private Animator mAnim;
+
+    private string mName;
+    private int mID;
 
     void Awake()
     {
-        mRB2D = gameObject.GetComponent<Rigidbody2D>();
-        mAnim = gameObject.GetComponent<Animator>();
+        mRB2D = GetComponent<Rigidbody2D>();
+        mAnim = GetComponent<Animator>();
+    }
+
+    public void Init(string Name, int id, float period)
+    {
+        mName = Name;
+        mID = id;
+        StartCoroutine(Movement());
+        StartCoroutine(Function(period));
     }
 
     private IEnumerator Movement()
     {
-        WaitForSeconds moveTime = new WaitForSeconds(1F);
-        while (true)
+        WaitForSeconds moveTime = new WaitForSeconds(1);
+        while(true)
         {
             int dir = Random.Range(0, 2);
-            if (dir == 0) // see left side 
+            if(dir == 0) // see left side
             {
                 transform.rotation = Quaternion.identity;
             }
-            else // see right side
+            else
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
 
-            int moveOfStay = Random.Range(0, 2);
-            if (moveOfStay == 0)
+            int moveOrStay = Random.Range(0, 2);
+            if(moveOrStay == 0)
             {
                 mRB2D.velocity = Vector2.zero;
                 mAnim.SetBool(AnimHash.Move, false);
@@ -41,6 +53,7 @@ public class Colleague : MonoBehaviour
                 mRB2D.velocity = transform.right * -mSpeed;
                 mAnim.SetBool(AnimHash.Move, true);
             }
+
             yield return moveTime;
         }
     }
@@ -48,10 +61,12 @@ public class Colleague : MonoBehaviour
     private IEnumerator Function(float time)
     {
         WaitForSeconds term = new WaitForSeconds(time);
-        while (true)
+        while(true)
         {
             yield return term;
-            // TODO 특정동작 구현
+            ColleagueController.Instance.JobFinish(mID);
+
+            Debug.LogFormat("{0}({1}) fnish job cureent time is {2}", mName, mID, Time.time);
         }
     }
 }

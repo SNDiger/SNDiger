@@ -8,12 +8,13 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
 
     private double mGold;
+    public double Gold { get { return mGold; } set { mGold = value; } }
     private int mStage;
     [SerializeField] private GemController mGem;
 
     void Awake()
     {
-        if (Instance == null)
+        if(Instance == null)
         {
             Instance = this;
         }
@@ -29,18 +30,12 @@ public class GameController : MonoBehaviour
         mGem.GetNewGem(id);
     }
 
-    void Update()
+    public void Touch()
     {
-        
-    }
-
-    public void Touth()
-    {
-        if (mGem.AddProgress(1))
+        if(mGem.AddProgress(1))
         {
             int id = Random.Range(0, GemController.MAX_GEM_COUNT);
             mGem.GetNewGem(id);
         }
-
     }
 }

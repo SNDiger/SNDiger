@@ -5,4 +5,5 @@ using UnityEngine;
 public static class AnimHash
 {
     public static readonly int Move = Animator.StringToHash("IsMove");
+    public delegate void TowIntPramCallback(int a, int b);
 }

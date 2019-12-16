@@ -11,39 +11,40 @@ public class GemController : MonoBehaviour
     [SerializeField] private Sprite[] mGemSprite;
     private double mCurrentHP, mMaxHP, mPhaseBoundary;
     private int mCurrentPhase, mStartIndex;
-    private MainUIController mUIController;
 
     void Awake()
     {
         mGemSprite = Resources.LoadAll<Sprite>("Gem");
-        mUIController = GameObject.FindGameObjectWithTag("MainUIController").GetComponent<MainUIController>();
     }
 
     public void GetNewGem(int id)
     {
         mStartIndex = id * mSheetCount;
-        mGem.sprite = mGemSprite[id * mSheetCount];
+        mGem.sprite = mGemSprite[mStartIndex];
         mCurrentPhase = 0;
         mCurrentHP = 0;
         mMaxHP = 100;
-        mPhaseBoundary = mMaxHP * 0.2F * (mCurrentPhase + 1);
+        mPhaseBoundary = mMaxHP * 0.2f * (mCurrentPhase + 1);
+        MainUIController.Instance.ShowProgress(mCurrentHP, mMaxHP);
     }
 
     public bool AddProgress(double value)
     {
         mCurrentHP += value;
-        Debug.LogFormat("{0}/{1}", mCurrentHP, mMaxHP);
-        mUIController.ShowHPBar(mCurrentHP, mMaxHP);
-
-        if (mCurrentHP >= mMaxHP * 0.25F * mCurrentPhase)
+        MainUIController.Instance.ShowProgress(mCurrentHP, mMaxHP);
+        if (mCurrentHP >= mPhaseBoundary)
         {
+            //next phase
             mCurrentPhase++;
+            //GameController.Instance.NextImage();
             if (mCurrentPhase > 4)
-            { 
+            {
+                //Clear
+                //GameController.Instance.NextStage();
                 return true;
             }
             mGem.sprite = mGemSprite[mStartIndex + mCurrentPhase];
-            mPhaseBoundary = mMaxHP * 0.25F * (mCurrentPhase + 1);
+            mPhaseBoundary = mMaxHP * 0.2f * (mCurrentPhase + 1);
         }
         return false;
     }

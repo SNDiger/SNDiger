@@ -6,13 +6,14 @@ using UnityEngine;
 public class TouchManager : MonoBehaviour
 {
     [SerializeField] private Camera mTouchCamera;
-    [SerializeField] private GameObject mDummy;
     [SerializeField] private EffectPool mEffectPool;
  
     public Ray GenerateRay(Vector3 screenPos)
     {
-        Vector3 nearPlane = mTouchCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, mTouchCamera.nearClipPlane));
-        Vector3 farPlane = mTouchCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, mTouchCamera.farClipPlane));
+        Vector3 nearPlane = mTouchCamera.ScreenToWorldPoint(
+                                new Vector3(screenPos.x, screenPos.y, mTouchCamera.nearClipPlane));
+        Vector3 farPlane = mTouchCamera.ScreenToWorldPoint(
+                                new Vector3(screenPos.x, screenPos.y, mTouchCamera.farClipPlane));
         return new Ray(nearPlane, farPlane - nearPlane);
     }
 
@@ -24,7 +25,8 @@ public class TouchManager : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 Ray ray = GenerateRay(touch.position);
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
@@ -44,20 +46,21 @@ public class TouchManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = GenerateRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            RaycastHit hit;
+            if(Physics.Raycast(ray,out hit))
             {
-                if (hit.collider.gameObject == gameObject)
+                if(hit.collider.gameObject == gameObject)
                 {
                     Timer effect = mEffectPool.GetFromPool(0);
                     effect.transform.position = hit.point;
+                    GameController.Instance.Touch();
                 }
             }
-            GameController.Instance.Touth();
         }
 #endif
         if (GetTouch())
         {
-            GameController.Instance.Touth();
+             GameController.Instance.Touch();
         }
     }
 }
