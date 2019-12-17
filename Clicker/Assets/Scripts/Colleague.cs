@@ -19,9 +19,8 @@ public class Colleague : MonoBehaviour
         mAnim = GetComponent<Animator>();
     }
 
-    public void Init(string Name, int id, float period)
+    public void Init(int id, float period)
     {
-        mName = Name;
         mID = id;
         StartCoroutine(Movement());
         StartCoroutine(Function(period));
@@ -65,8 +64,6 @@ public class Colleague : MonoBehaviour
         {
             yield return term;
             ColleagueController.Instance.JobFinish(mID);
-
-            Debug.LogFormat("{0}({1}) fnish job cureent time is {2}", mName, mID, Time.time);
         }
     }
 }
