@@ -10,7 +10,6 @@ public class Colleague : MonoBehaviour
     [SerializeField] private Transform mEffectPos;
     private Animator mAnim;
 
-    private string mName;
     private int mID;
 
     void Awake()

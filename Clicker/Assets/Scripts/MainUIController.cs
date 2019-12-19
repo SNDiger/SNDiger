@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 #pragma warning disable CS0649
 public class MainUIController : MonoBehaviour
@@ -9,6 +10,7 @@ public class MainUIController : MonoBehaviour
     private static int mUIMoveHash = Animator.StringToHash("Move");
     [SerializeField] private Animator[] mWindowAnims;
     [SerializeField] private GaugeBar mProgressBar;
+    [SerializeField] private Text mGoldText;
 
     void Awake()
     {
@@ -20,6 +22,11 @@ public class MainUIController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void ShowGold(double value)
+    {
+        mGoldText.text = UnitBuilder.GetUnitStr(value);
     }
 
     public void ShowProgress(double current, double max)
