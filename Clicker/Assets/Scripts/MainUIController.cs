@@ -34,7 +34,7 @@ public class MainUIController : MonoBehaviour
         //TODO calc Gauge progress float value
         float progress = (float)(current / max);
         //hack build Gauge progress string
-        string progressString = progress.ToString("P0");
+        string progressString = string.Format("{0} / {1}", UnitBuilder.GetUnitStr(current), UnitBuilder.GetUnitStr(max));
         mProgressBar.ShowGaugeBar(progress, progressString);
     }
 

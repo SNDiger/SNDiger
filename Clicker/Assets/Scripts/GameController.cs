@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
         }
     }
     private int mStage;
+    public int StageNumber { get { return mStage; } }
     [SerializeField] private GemController mGem;
     #endregion
 
@@ -57,6 +58,7 @@ public class GameController : MonoBehaviour
     {
         if(mGem.AddProgress(1))
         {
+            mStage++;
             int id = Random.Range(0, GemController.MAX_GEM_COUNT);
             mGem.GetNewGem(id);
         }
