@@ -17,7 +17,7 @@ public class UIElement : MonoBehaviour
         mIcon.sprite = icon;
         mID = id;
         mNameText.text = name;
-        mPurchaseButton.onClick.AddListener(()=> { callback(mID, 1); });
+        mPurchaseButton.onClick.AddListener( ()=> { callback(mID, 1); } );
         Renew(contents, purchaseText, level, value, cost, time);
     }
 

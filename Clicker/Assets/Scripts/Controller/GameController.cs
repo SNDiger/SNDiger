@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     public AnimHash.VoidCollback GoldConsumeCallback { get; set; }
 
-    private double mGold;
+    [SerializeField] private double mGold;
     public double Gold { get { return mGold; }
         set
         {

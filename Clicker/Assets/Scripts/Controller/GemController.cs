@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-#pragma warning disable CS0649
+#pragma warning disable CS0649, CS0414
 public class GemController : MonoBehaviour
 {
     public const int MAX_GEM_COUNT = 3;

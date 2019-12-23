@@ -19,6 +19,7 @@ public class ColleagueController : MonoBehaviour
     [SerializeField] private Transform mScrollTarget;
     
     private List<UIElement> mElementList;
+    [SerializeField] private TextPool mTextEffectPool;
 
     private int mCurrentId, mCurrentAmount;
     #endregion
@@ -90,13 +91,16 @@ public class ColleagueController : MonoBehaviour
         
     }
 
-    public void JobFinish(int id)
+    public void JobFinish(int id, Vector2 pos)
     {
         ColleagueData data = mDataArr[id];
         switch(data.JobType)
         {
             case eJobType.Gold:
                 GameController.Instance.Gold += data.ValueCurrent;
+                GoldUPEffect effect = mTextEffectPool.GetFromPool((int)eTextEffectType.GoldUP);
+                effect.transform.position = pos;
+                effect.ShowGoldText(data.ValueCurrent.ToString());
                 break;
             case eJobType.Touch:
                 GameController.Instance.Touch();

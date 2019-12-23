@@ -5,5 +5,9 @@ using System;
 public enum eEffectType
 {
     Touch,
-    PhaseShift
+    PhaseShift,
+}
+public enum eTextEffectType
+{
+    GoldUP
 }
