@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] private float mTime;
 
-    private void OnEnable()
+    void OnEnable()
     {
         StartCoroutine(TimeOut());
     }

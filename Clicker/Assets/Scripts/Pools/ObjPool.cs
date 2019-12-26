@@ -5,8 +5,8 @@ using UnityEngine;
 #pragma warning disable CS0649
 public class ObjPool<T> : MonoBehaviour where T : Component
 {
-    [SerializeField] private T[] mOriginArr;
-    private List<T>[] mPool;
+    [SerializeField] protected T[] mOriginArr;
+    protected List<T>[] mPool;
 
     void Start()
     {

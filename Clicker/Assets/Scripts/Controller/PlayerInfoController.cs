@@ -8,10 +8,15 @@ public class PlayerInfoController : MonoBehaviour
 {
     public static PlayerInfoController Instance;
     [SerializeField] private PlayerInfo[] mInfos;
+    public PlayerInfo[] Infos { get { return mInfos; } }
+
+    [SerializeField] private UIElement mElementPrefab;
+    [SerializeField] private Transform mScrollTarget;
+    private List<UIElement> mElementList;
 
     void Awake()
     {
-        if (Instance == null)
+        if(Instance == null)
         {
             Instance = this;
         }
@@ -19,8 +24,50 @@ public class PlayerInfoController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    void Start()
+    {
+        mElementList = new List<UIElement>();
+        for(int i = 0; i < mInfos.Length; i++)
+        {
+            UIElement element = Instantiate(mElementPrefab, mScrollTarget);
+            element.Init(null, i, mInfos[i].Name, mInfos[i].Contents, "Level UP", mInfos[i].Level, mInfos[i].ValueCurrent,
+                        mInfos[i].CostCurrent, mInfos[i].Duration, AddLevel, mInfos[i].ValueType);
+            mElementList.Add(element);
+        }
+        GameController.Instance.TouchPower = mInfos[0].ValueCurrent;
+    }
 
+    public void AddLevel(int id, int amount)
+    {
+        GameController.Instance.GoldConsumeCallback = () => { ApplyLevelUP(id, amount); };
+        GameController.Instance.Gold -= mInfos[id].CostCurrent;
+    }
+
+    public void ApplyLevelUP(int id, int amount)
+    {
+        mInfos[id].Level += amount;
+        mInfos[id].CostCurrent = mInfos[id].CostBase * Math.Pow(mInfos[id].CostWeight, mInfos[id].Level);
+        switch(mInfos[id].ValueType)
+        {
+            case eValueType.Expo:
+                mInfos[id].ValueCurrent = mInfos[id].ValueBase * Math.Pow(mInfos[id].ValueWeight, mInfos[id].Level);
+                break;
+            case eValueType.Numeric:
+            case eValueType.Percent:
+                mInfos[id].ValueCurrent = mInfos[id].ValueBase + mInfos[id].ValueWeight * mInfos[id].Level;
+                break;
+            default:
+                Debug.LogError("wrong value type : " + mInfos[id].ValueType);
+                break;
+        }
+        mElementList[id].Renew(mInfos[id].Contents, "Level UP", mInfos[id].Level, mInfos[id].ValueCurrent,
+                               mInfos[id].CostCurrent, mInfos[id].Duration, mInfos[id].ValueType);
+        if (id == 0)
+        {
+            GameController.Instance.TouchPower = mInfos[id].ValueCurrent;
+        }
     }
 }
 
@@ -33,7 +80,7 @@ public class PlayerInfo
     public int IconID;
     public int Level;
 
-    public ePlayerValueType ValueType;
+    public eValueType ValueType;
     public double ValueCurrent;
     public double ValueWeight;
     public double ValueBase;
@@ -45,10 +92,4 @@ public class PlayerInfo
     public double CostCurrent;
     public double CostWeight;
     public double CostBase;
-}
-public enum ePlayerValueType
-{
-    Expo,
-    Numeric,
-    Percent
 }

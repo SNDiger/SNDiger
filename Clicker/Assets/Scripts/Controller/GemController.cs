@@ -1,18 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-#pragma warning disable CS0649, CS0414
+#pragma warning disable CS0649
 public class GemController : MonoBehaviour
 {
     public const int MAX_GEM_COUNT = 3;
+    [SerializeField] private EffectPool mEffectPool;
     [SerializeField] private int mSheetCount = 5;
     [SerializeField] private SpriteRenderer mGem;
     [SerializeField] private Sprite[] mGemSprite;
-    [SerializeField] private EffectPool mEffectPool;
-    [SerializeField] private float mHPBase = 10, mHPWeight = 1.4F, 
-                                   mRewardBase = 10, mRewardWeight = 1.5F;
+    [SerializeField] private float mHPBase = 10, mHPWeight = 1.4f,
+                                   mRewardBase = 10, mRewardWeight = 1.5f;
     private double mCurrentHP, mMaxHP, mPhaseBoundary;
     private int mCurrentPhase, mStartIndex;
 
@@ -27,8 +27,8 @@ public class GemController : MonoBehaviour
         mGem.sprite = mGemSprite[mStartIndex];
         mCurrentPhase = 0;
         mCurrentHP = 0;
-        mMaxHP = mRewardBase * Math.Pow(mRewardWeight, GameController.Instance.StageNumber);
-        mPhaseBoundary = mMaxHP * 0.2F * (mCurrentPhase + 1);
+        mMaxHP = mHPBase * Math.Pow(mHPWeight, GameController.Instance.StageNumber);
+        mPhaseBoundary = mMaxHP * 0.2f * (mCurrentPhase + 1);
         MainUIController.Instance.ShowProgress(mCurrentHP, mMaxHP);
     }
 
@@ -45,12 +45,12 @@ public class GemController : MonoBehaviour
             {
                 //Clear
                 //GameController.Instance.NextStage();
-                GameController.Instance.Gold += mRewardBase * Math.Pow(mRewardWeight, GameController.Instance.StageNumber);
+                GameController.Instance.Gold += mRewardBase * 
+                            Math.Pow(mRewardWeight, GameController.Instance.StageNumber);
                 return true;
             }
             Timer effect = mEffectPool.GetFromPool((int)eEffectType.PhaseShift);
             effect.transform.position = mGem.transform.position;
-
             mGem.sprite = mGemSprite[mStartIndex + mCurrentPhase];
             mPhaseBoundary = mMaxHP * 0.2f * (mCurrentPhase + 1);
         }

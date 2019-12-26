@@ -7,30 +7,7 @@ public class TouchManager : MonoBehaviour
 {
     [SerializeField] private Camera mTouchCamera;
     [SerializeField] private EffectPool mEffectPool;
-
-    void Update()
-    {
-#if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = GenerateRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                if (hit.collider.gameObject == gameObject)
-                {
-                    Timer effect = mEffectPool.GetFromPool((int)eEffectType.Touch);
-                    effect.transform.position = hit.point;
-                    GameController.Instance.Touch();
-                }
-            }
-        }
-#endif
-        if (GetTouch())
-        {
-             GameController.Instance.Touch();
-        }
-    }
-
+ 
     public Ray GenerateRay(Vector3 screenPos)
     {
         Vector3 nearPlane = mTouchCamera.ScreenToWorldPoint(
@@ -48,7 +25,8 @@ public class TouchManager : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 Ray ray = GenerateRay(touch.position);
-                if (Physics.Raycast(ray, out RaycastHit hit))
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
@@ -60,5 +38,29 @@ public class TouchManager : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = GenerateRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray,out hit))
+            {
+                if(hit.collider.gameObject == gameObject)
+                {
+                    Timer effect = mEffectPool.GetFromPool((int)eEffectType.Touch);
+                    effect.transform.position = hit.point;
+                    GameController.Instance.Touch();
+                }
+            }
+        }
+#endif
+        if (GetTouch())
+        {
+             GameController.Instance.Touch();
+        }
     }
 }

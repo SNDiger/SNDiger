@@ -2,6 +2,7 @@ ThisIsGitHub
 UserName:SNDiger 
 EmailAddress:sin1123ddd@gmail.com
 
+[ User Text ]
 유니티 관련 강의 유튜버
 Brackeys => 기초강의 및 AI 기능
 Jason Weimann => 경력자, 아키텍처 
@@ -11,3 +12,6 @@ Mix and Jam => Unity UI
 
 유니티 자료 링크
 => https://github.com/akpil/Unity-1908
+
+유니티 데이터 패스 정리 링크
+=> https://3dmpengines.tistory.com/1745

@@ -11,7 +11,7 @@ public class MainUIController : MonoBehaviour
     [SerializeField] private Animator[] mWindowAnims;
     [SerializeField] private GaugeBar mProgressBar;
     [SerializeField] private Text mGoldText;
-
+    
     void Awake()
     {
         if(Instance == null)
@@ -33,8 +33,11 @@ public class MainUIController : MonoBehaviour
     {
         //TODO calc Gauge progress float value
         float progress = (float)(current / max);
-        //hack build Gauge progress string
-        string progressString = string.Format("{0} / {1}", UnitBuilder.GetUnitStr(current), UnitBuilder.GetUnitStr(max));
+        ////hack build Gauge progress string
+        //string progressString = progress.ToString("P0");
+        string progressString = string.Format("{0} / {1}",
+                                UnitBuilder.GetUnitStr(current),
+                                UnitBuilder.GetUnitStr(max));
         mProgressBar.ShowGaugeBar(progress, progressString);
     }
 
