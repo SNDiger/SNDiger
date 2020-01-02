@@ -12,7 +12,7 @@ public class UIElement : MonoBehaviour
     private int mID;
 
     public void Init(Sprite icon, int id, string name, string contents, string purchaseText,
-                     int level, double value, double cost, double time, AnimHash.TwoIntPramCallback callback, eValueType valueType = eValueType.Expo)
+                     int level, double value, double cost, double time, StaticValues.TwoIntPramCallback callback, eValueType valueType = eValueType.Expo)
     {
         mIcon.sprite = icon;
         mID = id;
@@ -20,7 +20,6 @@ public class UIElement : MonoBehaviour
         mPurchaseButton.onClick.AddListener(()=> { callback(mID, 1); });
         Renew(contents, purchaseText, level, value, cost, time, valueType);
     }
-
     public void Renew(string contents, string purchaseText, int level, double value, double cost, double time, eValueType elemType = eValueType.Expo)
     {
         mLevelText.text = "LV. " + level.ToString();

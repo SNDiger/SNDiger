@@ -9,7 +9,6 @@ public class Colleague : MonoBehaviour
     [SerializeField] private float mSpeed;
     [SerializeField] private Transform mEffectPos;
     private Animator mAnim;
-
     private int mID;
 
     void Awake()
@@ -44,12 +43,12 @@ public class Colleague : MonoBehaviour
             if(moveOrStay == 0)
             {
                 mRB2D.velocity = Vector2.zero;
-                mAnim.SetBool(AnimHash.Move, false);
+                mAnim.SetBool(StaticValues.Move, false);
             }
             else
             {
                 mRB2D.velocity = transform.right * -mSpeed;
-                mAnim.SetBool(AnimHash.Move, true);
+                mAnim.SetBool(StaticValues.Move, true);
             }
 
             yield return moveTime;

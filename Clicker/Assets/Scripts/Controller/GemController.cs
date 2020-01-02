@@ -14,11 +14,30 @@ public class GemController : MonoBehaviour
     [SerializeField] private float mHPBase = 10, mHPWeight = 1.4f,
                                    mRewardBase = 10, mRewardWeight = 1.5f;
     private double mCurrentHP, mMaxHP, mPhaseBoundary;
+    public double CurrentHP { get { return mCurrentHP; } }
     private int mCurrentPhase, mStartIndex;
 
     void Awake()
     {
         mGemSprite = Resources.LoadAll<Sprite>("Gem");
+    }
+
+    public void LoadGem(int lastGemID, double currentHP)
+    {
+        mStartIndex = lastGemID * mSheetCount;
+        mCurrentHP = currentHP;
+        mMaxHP = mHPBase * Math.Pow(mHPWeight, GameController.Instance.StageNumber);
+        
+        MainUIController.Instance.ShowProgress(mCurrentHP, mMaxHP);
+
+        mCurrentPhase = 0;
+        while(mCurrentHP >= mPhaseBoundary)
+        {
+            mCurrentPhase++;
+            mPhaseBoundary = mMaxHP * 0.2f * (mCurrentPhase + 1);
+        }
+        
+        mGem.sprite = mGemSprite[mStartIndex + mCurrentPhase];
     }
 
     public void GetNewGem(int id)

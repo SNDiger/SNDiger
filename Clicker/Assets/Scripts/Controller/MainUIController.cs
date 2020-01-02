@@ -7,11 +7,10 @@ using UnityEngine.UI;
 public class MainUIController : MonoBehaviour
 {
     public static MainUIController Instance;
-    private static int mUIMoveHash = Animator.StringToHash("Move");
     [SerializeField] private Animator[] mWindowAnims;
     [SerializeField] private GaugeBar mProgressBar;
     [SerializeField] private Text mGoldText;
-    
+
     void Awake()
     {
         if(Instance == null)
@@ -43,6 +42,6 @@ public class MainUIController : MonoBehaviour
 
     public void MoveWindow(int id)
     {
-        mWindowAnims[id].SetTrigger(mUIMoveHash);
+        mWindowAnims[id].SetTrigger(StaticValues.UIMove);
     }
 }

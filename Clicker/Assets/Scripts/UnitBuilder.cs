@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public static class UnitBuilder
 {
-    private static readonly string[] UNIT_ARR = { "", "K", "M", "B", "T", "aa", "ab", "ac", "ad", "ae", "af","ag" };
-
+    private static readonly string[] UNIT_ARR = { "", "K", "M", "B", "T", "aa", "ab", "ac" };
     public static string GetUnitStr(double value)
     {
         string valStr = value.ToString("N0");
